@@ -8,7 +8,7 @@ dataframe with the best possible words to use. User judgement is required to ass
     
 ##### Instructions
 * The `removed` variable should be a string of all the letters not present in the word. 
-* The `greens` and `yellows` variables should be a dictionaries where each key is a separate green/yellow letter as a string. The values of each dictionary are lists corresponding to the positions of the green/yellow letters.
+* The `greens` and `yellows` variables should be dictionaries where each key is a separate green/yellow letter as a string. The values of each dictionary are lists corresponding to the positions of the green/yellow letters.
 
 ```
 removed = 'abcde'
