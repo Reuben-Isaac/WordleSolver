@@ -73,20 +73,15 @@ def total_letter_prob(wordlist):
     return word_prob
 
 
-# def verify_word(test_word, dictionary):
-
-
 def create_wordlist(removed_letters):
     """Create a 5-letter sequence, verifies if it is a word, and appends it to a list"""
     s = string.ascii_lowercase
     if removed_letters is not None:
         for letter in removed_letters:
-            # print(letter)
             s = s.replace(letter, "")
 
     letter_combo = [''.join(i) for i in itertools.product(s, repeat=word_len)]
     wordlist = []
-    # print(type(wordlist))
 
     for i in range(len(letter_combo)):
         if letter_combo[i] in wordle_dict:
@@ -121,7 +116,6 @@ def process_green_yellow(greens, yellows, wordlist):
                     break
             if append:
                 sing_filtered_wl.append(word)
-                #print('appended', word)
 
     if len(yellows) > 0:
         has_yellows = True
@@ -145,7 +139,6 @@ def process_green_yellow(greens, yellows, wordlist):
                     break
             if append:
                 dbl_filtered_wl.append(word)
-                #print('appended', word)
 
     return dbl_filtered_wl
 
