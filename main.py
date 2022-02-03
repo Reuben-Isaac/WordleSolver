@@ -96,82 +96,71 @@ def create_wordlist(removed_letters):
 
 
 def process_green_yellow(greens, yellows, wordlist):
-    filtered_wordlist = []
-    print(wordlist)
-    has_greens = None
-    for word in wordlist:
-        cond_met = None
-        if len(greens) > 0:
-            has_greens = True
+    sing_filtered_wl = []
+    dbl_filtered_wl = []
+
+    if len(greens) > 0:
+        has_greens = True
+    else:
+        has_greens = False
+        sing_filtered_wl = wordlist
+
+    if has_greens:
+        for word in wordlist:
+            append = None
             for i in range(len(greens)):
-                cond_met = False
                 green_letter = list(greens.keys())[i]
-                print(word, "should have", green_letter, 'at', list(greens.values())[i], ". ", word, "has",
-                      word[list(greens.values())[i]])
-                if green_letter != word[list(greens.values())[i]]:
-                    cond_met = True
-                else:
-                    break
-        if cond_met:
-            filtered_wordlist.append(word)
-            wordlist.remove(word)
-            print('removed', word)
-
-    print(len(filtered_wordlist))
-    print(len(wordlist))
-
-    for word in wordlist:
-        print(word)
-        append = None
-        remove = None
-        if len(yellows) > 0:
-            for i in range(len(yellows)):
-                append = False
-                remove = False
-                yellow_letter = list(yellows.keys())[i]
-                # print(word, "should not have", yellow_letter, 'at', list(yellows.values())[i], ". ", word, "has", word[list(yellows.values())[i]])
-
-                if type(list(yellows.values())[i]) is list:
-                    for position in list(yellows.values())[i]:
-                        if has_greens:
-                            if yellow_letter == word[position]:
-                                remove = True
-                        else:
-                            if yellow_letter != word[position] and yellow_letter in word:
-                                append = True
-                else:
-                    if has_greens:
-                        if yellow_letter == word[list(yellows.values())[i]]:
-                            remove = True
-                        else:
-                            break
+                for j in range(len(list(greens.values())[i])):
+                    position = list(greens.values())[i][j]
+                    if green_letter == word[position]:
+                        append = True
                     else:
-                        if yellow_letter != word[list(yellows.values())[i]] and yellow_letter in word:
-                            append = True
-                        else:
-                            break
-        if remove:
-            wordlist.remove(word)
-            print('removed', word)
-        if append:
-            wordlist.append(word)
-            print('appended', word)
+                        append = False
+                        break
+                if not append:
+                    break
+            if append:
+                sing_filtered_wl.append(word)
+                #print('appended', word)
 
-    return wordlist
+    if len(yellows) > 0:
+        has_yellows = True
+    else:
+        has_yellows = False
+        dbl_filtered_wl = sing_filtered_wl
+
+    if has_yellows:
+        for word in sing_filtered_wl:
+            append = None
+            for i in range(len(yellows)):
+                yellow_letter = list(yellows.keys())[i]
+                for j in range(len(list(yellows.values())[i])):
+                    position = list(yellows.values())[i][j]
+                    if yellow_letter != word[position] and yellow_letter in word:
+                        append = True
+                    else:
+                        append = False
+                        break
+                if not append:
+                    break
+            if append:
+                dbl_filtered_wl.append(word)
+                #print('appended', word)
+
+    return dbl_filtered_wl
 
 
 def main():
-    removed = 'an'
-    greens = {'i': 2, 't': 4}
-    yellows = {'s': 0}
+    removed = 'sarbmo'
+    greens = {'i': [1], 'n': [2], 'g': [3], 'e': [4]}
+    yellows = {}
     wordlist = create_wordlist(removed)
     wordlist = process_green_yellow(greens, yellows, wordlist)
     # scored_wordlist = total_letter_prob(wordlist)
     scored_wordlist = positional_prob(wordlist)
-    print(scored_wordlist)
     scored_wordlist_df = pd.DataFrame(scored_wordlist.items())
-    #print(scored_wordlist_df.sort_values([1, 0], ascending=False))
-    #print(max(scored_wordlist, key=scored_wordlist.get))
+    print(scored_wordlist_df.sort_values([1, 0], ascending=False))
+    print(max(scored_wordlist, key=scored_wordlist.get))
     return None
 
 
