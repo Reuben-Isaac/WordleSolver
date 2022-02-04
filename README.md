@@ -3,6 +3,9 @@
 ##### Description
 The `main.py` script allows users to input the grey, yellow, and green letters from a Wordle game. The result is a
 dataframe with the best possible words to use. User judgement is required to assess if the "best" word is a plausible word.
+
+The algorithm works by using the probability that a letter is to occur in a certain position of the word. The possible word guesses are associated with a "score" (shown in pandas DataFrame). Each word's "score" reflects the combined probability of all the letters in the word.
+
     
 
     
